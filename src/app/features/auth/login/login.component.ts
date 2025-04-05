@@ -21,7 +21,6 @@ import { ToastrService } from 'ngx-toastr';
     MatFormField,
     MatInput,
     MatLabel,
-    MatTooltip,
     MatTableModule,
     MatError
   ],
