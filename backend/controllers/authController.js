@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { getConnection } = require('../models/db');
+const { User } = require('../models/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -11,14 +11,17 @@ exports.register = async (req, res) => {
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const connection = getConnection();
 
-    const [results] = await connection.query(
-      "INSERT INTO users (firstName, lastName, email, gender, password, isAdmin) VALUES (?, ?, ?, ?, ?, ?)",
-      [firstName, lastName, email, gender, hashedPassword, isAdmin]
-    );
+    const newUser = await User.create({
+      firstName,
+      lastName,
+      email,
+      gender,
+      password: hashedPassword,
+      isAdmin
+    });
 
-    res.json({ message: "Benutzer erfolgreich registriert", userId: results.insertId });
+    res.json({ message: "Benutzer erfolgreich registriert", userId: newUser.id });
   } catch (err) {
     console.error("❌ Fehler bei der Registrierung:", err.message);
     res.status(500).json({ error: err.message });
@@ -29,20 +32,22 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const connection = getConnection();
-    const [users] = await connection.query("SELECT * FROM users WHERE email = ?", [email]);
+    const user = await User.findOne({ where: { email } });
 
-    if (users.length === 0) return res.status(400).json({ error: "Ungültige Anmeldedaten" });
+    if (!user) {
+      return res.status(400).json({ error: "Ungültige Anmeldedaten" });
+    }
 
-    const user = users[0];
     const validPassword = await bcrypt.compare(password, user.password);
 
-    if (!validPassword) return res.status(400).json({ error: "Ungültige Anmeldedaten" });
+    if (!validPassword) {
+      return res.status(400).json({ error: "Ungültige Anmeldedaten" });
+    }
 
     const token = jwt.sign(
-      { userId: user.id, isAdmin: user.isAdmin },
-      JWT_SECRET,
-      { expiresIn: JWT_EXPIRATION }
+        { userId: user.id, isAdmin: user.isAdmin },
+        JWT_SECRET,
+        { expiresIn: JWT_EXPIRATION }
     );
 
     res.json({ message: "Erfolgreich angemeldet", token });
@@ -51,3 +56,4 @@ exports.login = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
