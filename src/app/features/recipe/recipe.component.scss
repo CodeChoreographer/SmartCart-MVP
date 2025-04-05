@@ -9,21 +9,21 @@ $panel-bg-color: #2a2a2a;
   display: flex;
   justify-content: center;
   padding: 20px;
-  background-color: $background-color;
-}
-button {
-  padding: 0.75rem 2rem;
-  font-size: 1rem;
-  background-color: #00c37a;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  button {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    background-color: #00c37a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 
-  &:hover {
-    background-color: #009b5a;
+    &:hover {
+      background-color: #009b5a;
+    }
   }
 }
+
 
 .content-wrapper {
   display: flex;
@@ -38,19 +38,13 @@ button {
   background-color: $secondary-color;
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid $primary-color;
   display: flex;
   flex-direction: column;
   gap: 20px;
   transition: all 0.3s ease;
 }
 
-.ingredients-box {
-  background-color: $panel-bg-color;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid $primary-color;
-}
+
 
 .ingredients-list {
   display: flex;
@@ -66,11 +60,11 @@ h2, h3, label {
 
 .custom-dropdown {
   position: relative;
-  width: 100%;
+  width: 95%;
   cursor: pointer;
+  border: #00c37a solid 1px;
   background-color: $panel-bg-color;
   padding: 10px;
-  border: 1px solid $primary-color;
   border-radius: 5px;
   color: $text-color;
   transition: all 0.3s ease;
@@ -88,7 +82,6 @@ h2, h3, label {
   left: 0;
   width: 100%;
   background-color: $secondary-color;
-  border: 1px solid $primary-color;
   border-radius: 5px;
   margin-top: 5px;
   z-index: 10;
@@ -109,7 +102,6 @@ h2, h3, label {
   background-color: $secondary-color;
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid $primary-color;
   overflow-y: auto;
   max-height: 700px;
   transition: all 0.3s ease;
@@ -119,7 +111,6 @@ h2, h3, label {
   background-color: $panel-bg-color;
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid $primary-color;
   color: white;
   white-space: pre-wrap;
 }

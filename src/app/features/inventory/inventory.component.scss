@@ -27,7 +27,9 @@ $text-color: white;
   padding: 10px;
   border-radius: 5px;
   transition: background-color 0.3s;
+  &:hover { background-color: darken($primary-color, 10%); }
 }
+
 
 .btn-edit-item {
   cursor: pointer;
@@ -38,6 +40,7 @@ $text-color: white;
   padding: 10px;
   border-radius: 5px;
   transition: background-color 0.3s;
+  &:hover { background-color: darken($primary-color, 10%); }
 }
 
 .btn-delete-item {
@@ -48,11 +51,9 @@ $text-color: white;
   padding: 10px;
   border-radius: 5px;
   transition: background-color 0.3s;
+  &:hover { background-color: darken(red, 10%); }
 }
 
-button:hover {
-  background-color: $hover-color;
-}
 
 .table-card {
   background-color: $panel-bg-color;
