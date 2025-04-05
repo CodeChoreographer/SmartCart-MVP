@@ -1,46 +1,69 @@
+$primary-color: #00c37a;
+$secondary-color: #1e1e1e;
+$panel-bg-color: #2a2a2a;
+$hover-color: #009b5a;
+$text-color: #f0f0f0;
+
 .admin-container {
-  background-color: #1e1e1e;
+  background-color: $secondary-color;
   padding: 30px;
   border-radius: 10px;
   width: 80%;
   margin: 30px auto;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
-  color: #f0f0f0;
+  color: $text-color;
   transition: all 0.3s;
 }
 
-.admin-container:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  button {
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    background-color: $primary-color;
+  }
+
+  button:hover {
+    background-color: $hover-color;
+  }
 }
 
-table {
+.user-table {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  background-color: #2a2a2a;
+  background-color: $panel-bg-color;
   border-radius: 10px;
-  overflow: hidden;
+  margin-top: 20px;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+.user-table button[color="warn"] {
+  background-color: #ff4c4c;
+  border-radius: 5px;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.user-table button[color="warn"]:hover {
+  background-color: #d32f2f;
 }
 
 th, td {
   padding: 15px;
   text-align: left;
-  border-bottom: 1px solid #444;
   color: #dcdcdc;
-  transition: all 0.3s;
+  border-bottom: 1px solid #444;
+  transition: background-color 0.3s;
 }
 
 th {
-  background-color: #3a3a3a;
-  font-weight: bold;
+  background-color: $primary-color;
+  color: $text-color;
   text-transform: uppercase;
 }
 
-tr:hover {
-  background-color: #3a3a3a;
-  cursor: pointer;
-}
 
 tr:last-child td {
   border-bottom: none;
@@ -65,17 +88,4 @@ tr:last-child td {
   color: white;
 }
 
-button {
-  background-color: #ff9800;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 20px;
-}
 
-button:hover {
-  background-color: #ff7b00;
-}

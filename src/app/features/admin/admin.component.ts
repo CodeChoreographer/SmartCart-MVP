@@ -2,17 +2,38 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {MatButton} from '@angular/material/button';
-import {NgForOf, NgIf} from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
+import { NgIf } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+import {MatCard} from '@angular/material/card';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
+  MatTable
+} from '@angular/material/table';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   imports: [
     MatButton,
-    NgForOf,
-    NgIf
+    NgIf,
+    MatCard,
+    MatTable,
+    MatHeaderCell,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatCell,
+    MatCellDef,
+    MatHeaderRow,
+    MatRow,
+    MatRowDef,
+    MatHeaderRowDef
   ],
   styleUrls: ['./admin.component.scss']
 })
@@ -26,7 +47,8 @@ export class AdminComponent implements OnInit {
     private http: HttpClient,
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private toastr: ToastrService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -42,11 +64,12 @@ export class AdminComponent implements OnInit {
       next: (users) => {
         this.users = users;
         this.isLoading = false;
+        this.toastr.success('Benutzer erfolgreich geladen', 'Erfolg');
       },
       error: (error) => {
         this.isLoading = false;
         this.errorMessage = 'Fehler beim Laden der Benutzer';
-        this.showSnackBar(this.errorMessage, 'error');
+        this.toastr.error(this.errorMessage, 'Fehler');
       }
     });
   }
@@ -64,24 +87,17 @@ export class AdminComponent implements OnInit {
     }).subscribe({
       next: () => {
         this.successMessage = 'Benutzer erfolgreich gelöscht';
-        this.showSnackBar(this.successMessage, 'success');
+        this.toastr.success(this.successMessage, 'Erfolg');
         this.loadUsers();
       },
       error: (error) => {
         this.errorMessage = 'Fehler beim Löschen des Benutzers';
-        this.showSnackBar(this.errorMessage, 'error');
+        this.toastr.error(this.errorMessage, 'Fehler');
       }
     });
   }
 
   goBack(){
     this.router.navigate(['/inventory']);
-  }
-
-  showSnackBar(message: string, type: string): void {
-    this.snackBar.open(message, 'Schliessen', {
-      duration: 3000,
-      panelClass: type === 'success' ? 'snack-success' : 'snack-error'
-    });
   }
 }

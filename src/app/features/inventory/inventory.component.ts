@@ -106,10 +106,4 @@ export class InventoryComponent implements OnInit {
       this.toastr.success('Produkt erfolgreich gelöscht', 'Erfolg');
     });
   }
-
-  logout(): void {
-    this.authService.logout();
-    this.toastr.error('Erfolgreich abgemeldet!', 'Tschüss');
-    this.router.navigate(['/login']);
-  }
 }
