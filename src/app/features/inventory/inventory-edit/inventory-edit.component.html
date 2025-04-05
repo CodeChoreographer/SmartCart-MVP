@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>{{ data.name ? 'Item bearbeiten' : 'Neues Item hinzufügen' }}</h2>
+<mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="data.name" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Menge</mat-label>
+    <input matInput [(ngModel)]="data.quantity" type="number" min="1" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Einheit</mat-label>
+    <mat-select [(ngModel)]="data.unit">
+      <mat-option value="Stück">Stück</mat-option>
+      <mat-option value="Kilogramm">Kilogramm</mat-option>
+      <mat-option value="Gramm">Gramm</mat-option>
+      <mat-option value="Liter">Liter</mat-option>
+      <mat-option value="Packung">Packung</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Abbrechen</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Speichern</button>
+</mat-dialog-actions>

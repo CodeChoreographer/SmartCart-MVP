@@ -1,34 +1,51 @@
 import { Component, OnInit } from '@angular/core';
 import { InventoryService, InventoryItem } from './inventory.service';
-import { FormsModule } from '@angular/forms';
-import { NgForOf, NgIf } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
-import { MatButton } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { InventoryEditComponent } from './inventory-edit/inventory-edit.component';
 import { AuthService } from '../../services/auth.service';
-import {ToastrService} from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
+import {Router, RouterLink} from '@angular/router';
+import {NgIf} from '@angular/common';
+import {MatCard} from '@angular/material/card';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
+  MatTable
+} from '@angular/material/table';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
   imports: [
-    FormsModule,
     NgIf,
-    RouterLink,
     MatButton,
-    MatTableModule,
-    NgForOf
+    RouterLink,
+    MatCard,
+    MatTable,
+    MatHeaderCell,
+    MatCell,
+    MatColumnDef,
+    MatCellDef,
+    MatHeaderCellDef,
+    MatHeaderRow,
+    MatHeaderRowDef,
+    MatRow,
+    MatRowDef
   ],
   styleUrls: ['./inventory.component.scss']
 })
 export class InventoryComponent implements OnInit {
   inventory: InventoryItem[] = [];
-  newItem: InventoryItem = { name: '', quantity: 0, unit: '' };
-  editItem: InventoryItem | null = null;
   isAdmin: boolean = false;
 
   constructor(
     private inventoryService: InventoryService,
+    private dialog: MatDialog,
     private authService: AuthService,
     private router: Router,
     private toastr: ToastrService
@@ -53,36 +70,42 @@ export class InventoryComponent implements OnInit {
     }
   }
 
-  addItem(): void {
-    if (this.newItem.name && this.newItem.quantity && this.newItem.unit) {
-      this.inventoryService.addItem(this.newItem).subscribe(() => {
-        this.loadInventory();
-        this.newItem = { name: '', quantity: 0, unit: '' };
-      });
-    }
+  openEditDialog(item?: InventoryItem): void {
+    const dialogRef = this.dialog.open(InventoryEditComponent, {
+      width: '400px',
+      data: item || { name: '', quantity: 0, unit: 'Stück' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (item) {
+          this.updateItem(item.id!, result);
+        } else {
+          this.addItem(result);
+        }
+      }
+    });
+  }
+
+  addItem(item: InventoryItem): void {
+    this.inventoryService.addItem(item).subscribe(() => {
+      this.loadInventory();
+      this.toastr.success('Produkt erfolgreich hinzugefügt', 'Erfolg');
+    });
+  }
+
+  updateItem(id: number, updatedItem: InventoryItem): void {
+    this.inventoryService.updateItem(id, updatedItem).subscribe(() => {
+      this.loadInventory();
+      this.toastr.success('Produkt erfolgreich aktualisiert', 'Erfolg');
+    });
   }
 
   deleteItem(id: number): void {
     this.inventoryService.deleteItem(id).subscribe(() => {
       this.loadInventory();
+      this.toastr.success('Produkt erfolgreich gelöscht', 'Erfolg');
     });
-  }
-
-  startEdit(item: InventoryItem): void {
-    this.editItem = { ...item };
-  }
-
-  saveEdit(): void {
-    if (this.editItem && this.editItem.id) {
-      this.inventoryService.updateItem(this.editItem.id, this.editItem).subscribe(() => {
-        this.loadInventory();
-        this.editItem = null;
-      });
-    }
-  }
-
-  cancelEdit(): void {
-    this.editItem = null;
   }
 
   logout(): void {

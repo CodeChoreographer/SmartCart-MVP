@@ -1,45 +1,67 @@
+$primary-color: #00c37a;
+$secondary-color: #1f1f1f;
+$panel-bg-color: #2a2a2a;
+$hover-color: #009b5a;
+$text-color: white;
+
 .container {
   padding: 20px;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.add-item {
+.header {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 20px;
+  color: black;
 }
 
 
-table {
+.form-container {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: $text-color;
+}
+
+.form-card, .table-card {
+  background-color: $secondary-color;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  color: $text-color;
+}
+
+.inventory-table {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th, td {
-  padding: 10px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-spacing: 0;
+  border-radius: 10px;
+  background-color: $panel-bg-color;
 }
 
 th {
-  background-color: #2a2a2a;
-  color: #00c37a;
+  background-color: $primary-color;
+  color: $text-color;
+  padding: 15px;
 }
 
-tr:hover {
-  background-color: rgba(0, 195, 122, 0.1);
+td {
+  padding: 10px;
+  color: $text-color;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
 }
 
 button {
-  padding: 0.75rem 2rem;
-  font-size: 1rem;
-  background-color: white;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #009b5a;
-  }
+  margin-top: 10px;
+  transition: background-color 0.3s;
 }
 
-
+button:hover {
+  background-color: $hover-color;
+}
