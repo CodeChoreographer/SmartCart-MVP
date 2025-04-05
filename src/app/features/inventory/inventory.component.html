@@ -1,40 +1,43 @@
 <div class="container">
-  <button mat-raised-button color="warn" (click)="logout()">Abmelden</button>
-
-  <!-- Nur für Admins sichtbar -->
-  <button *ngIf="isAdmin" mat-raised-button color="accent" routerLink="/admin">Benutzerverwaltung</button>
-
-  <div *ngIf="editItem; else addItemForm">
-    <input [(ngModel)]="editItem.name" placeholder="Name">
-    <input [(ngModel)]="editItem.quantity" type="number" placeholder="Menge">
-    <input [(ngModel)]="editItem.unit" placeholder="Einheit">
-    <button mat-raised-button color="primary" (click)="saveEdit()">Speichern</button>
-    <button mat-raised-button color="warn" (click)="cancelEdit()">Abbrechen</button>
+  <div class="header">
+    <button mat-raised-button color="warn" (click)="logout()">Abmelden</button>
+    <button *ngIf="isAdmin" mat-raised-button color="accent" routerLink="/admin">Benutzerverwaltung</button>
   </div>
 
-  <ng-template #addItemForm>
-    <input [(ngModel)]="newItem.name" placeholder="Name">
-    <input [(ngModel)]="newItem.quantity" type="number" placeholder="Menge">
-    <input [(ngModel)]="newItem.unit" placeholder="Einheit">
-    <button mat-raised-button color="accent" (click)="addItem()">Hinzufügen</button>
-  </ng-template>
+  <div class="action-buttons">
+    <button mat-raised-button color="primary" (click)="openEditDialog()">Item hinzufügen</button>
+  </div>
 
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Menge</th>
-      <th>Einheit</th>
-      <th>Aktionen</th>
-    </tr>
-    <tr *ngFor="let item of inventory">
-      <td>{{ item.name }}</td>
-      <td>{{ item.quantity }}</td>
-      <td>{{ item.unit }}</td>
-      <td>
-        <button mat-raised-button color="accent" (click)="startEdit(item)">Bearbeiten</button>
-        <button mat-raised-button color="warn" (click)="deleteItem(item.id!)">Löschen</button>
-      </td>
-    </tr>
-  </table>
+  <mat-card class="table-card">
+    <table mat-table [dataSource]="inventory" class="mat-elevation-z8 inventory-table">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let item"> {{item.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> Menge </th>
+        <td mat-cell *matCellDef="let item"> {{item.quantity}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="unit">
+        <th mat-header-cell *matHeaderCellDef> Einheit </th>
+        <td mat-cell *matCellDef="let item"> {{item.unit}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Aktionen </th>
+        <td mat-cell *matCellDef="let item">
+          <button mat-raised-button color="accent" (click)="openEditDialog(item)">Bearbeiten</button>
+          <button mat-raised-button color="warn" (click)="deleteItem(item.id!)">Löschen</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['name', 'quantity', 'unit', 'actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['name', 'quantity', 'unit', 'actions'];"></tr>
+    </table>
+  </mat-card>
+
   <button mat-raised-button color="primary" routerLink="/recipe">Zur Rezeptgenerierung</button>
 </div>
