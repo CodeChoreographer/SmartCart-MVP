@@ -1,66 +1,59 @@
-const { getConnection } = require('../models/db');
+const { Inventory } = require('../models/db');
 
 exports.getInventory = async (req, res) => {
   try {
-    const connection = getConnection();
-    const [results] = await connection.query("SELECT * FROM inventory");
-    res.json(results);
+    const userId = req.user.userId; // Benutzer-ID aus dem Token
+    console.log(`📥 Benutzer-ID: ${userId}`);
+
+    const inventory = await Inventory.findAll({ where: { userId } });
+    res.json(inventory);
   } catch (err) {
-    console.error("❌ Fehler bei der Datenbankabfrage:", err.message);
-    res.status(500).json({ error: err.message });
+    console.error('❌ Fehler beim Abrufen des Inventars:', err.message);
+    res.status(500).json({ error: 'Fehler beim Abrufen des Inventars' });
   }
 };
 
+
 exports.addItem = async (req, res) => {
   const { name, quantity, unit } = req.body;
+  const userId = req.user.userId;
+
   try {
-    const connection = getConnection();
-    const [results] = await connection.query(
-      "INSERT INTO inventory (name, quantity, unit) VALUES (?, ?, ?)",
-      [name, quantity, unit]
-    );
-    res.json({ message: "Artikel hinzugefügt", id: results.insertId });
+    const newItem = await Inventory.create({ name, quantity, unit, userId });
+    res.json(newItem);
   } catch (err) {
-    console.error("❌ Fehler beim Hinzufügen:", err.message);
-    res.status(500).json({ error: err.message });
+    console.error('❌ Fehler beim Hinzufügen eines Items:', err.message);
+    res.status(500).json({ error: 'Fehler beim Hinzufügen eines Items' });
   }
 };
 
 exports.deleteItem = async (req, res) => {
   const { id } = req.params;
+  const userId = req.user.userId;
+
   try {
-    const connection = getConnection();
-    const [results] = await connection.query("DELETE FROM inventory WHERE id = ?", [id]);
-
-    if (results.affectedRows === 0) {
-      return res.status(404).json({ message: `Artikel mit ID ${id} nicht gefunden.` });
-    }
-
-    res.json({ message: "Artikel gelöscht" });
+    const deleted = await Inventory.destroy({ where: { id, userId } });
+    if (deleted) res.json({ message: 'Item erfolgreich gelöscht' });
+    else res.status(404).json({ error: 'Item nicht gefunden oder keine Berechtigung' });
   } catch (err) {
-    console.error("❌ Fehler beim Löschen:", err.message);
-    res.status(500).json({ error: err.message });
+    console.error('❌ Fehler beim Löschen eines Items:', err.message);
+    res.status(500).json({ error: 'Fehler beim Löschen eines Items' });
   }
 };
 
 exports.updateItem = async (req, res) => {
   const { id } = req.params;
   const { name, quantity, unit } = req.body;
+  const userId = req.user.userId;
 
   try {
-    const connection = getConnection();
-    const [results] = await connection.query(
-      "UPDATE inventory SET name = ?, quantity = ?, unit = ? WHERE id = ?",
-      [name, quantity, unit, id]
+    const updated = await Inventory.update(
+      { name, quantity, unit },
+      { where: { id, userId } }
     );
-
-    if (results.affectedRows === 0) {
-      return res.status(404).json({ message: `Artikel mit ID ${id} nicht gefunden.` });
-    }
-
-    res.json({ message: "Artikel erfolgreich aktualisiert" });
+    res.json(updated);
   } catch (err) {
-    console.error("❌ Fehler beim Aktualisieren:", err.message);
-    res.status(500).json({ error: err.message });
+    console.error('❌ Fehler beim Aktualisieren eines Items:', err.message);
+    res.status(500).json({ error: 'Fehler beim Aktualisieren eines Items' });
   }
 };
