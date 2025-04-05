@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import {Router, RouterLink} from '@angular/router';
 import {NgIf} from '@angular/common';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,7 @@ export class NavbarComponent implements OnInit {
   isAdmin: boolean = false;
   isAuthenticated: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.checkUserStatus();
@@ -33,6 +34,7 @@ export class NavbarComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+    this.toastr.success('Erfolgreich abgemeldet!', 'Tschüss');
     this.router.navigate(['/login']);
   }
 }
