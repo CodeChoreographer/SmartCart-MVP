@@ -22,7 +22,6 @@ import {MatButton} from '@angular/material/button';
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
   imports: [
-    NgIf,
     MatButton,
     RouterLink,
     MatCard,

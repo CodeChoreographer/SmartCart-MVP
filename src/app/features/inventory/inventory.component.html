@@ -1,36 +1,39 @@
 <div class="container">
-  <div class="header">
-    <button mat-raised-button color="warn" (click)="logout()">Abmelden</button>
-    <button *ngIf="isAdmin" mat-raised-button color="accent" routerLink="/admin">Benutzerverwaltung</button>
-  </div>
+  <div class="header"></div>
 
+  <!-- Action Buttons Container -->
   <div class="action-buttons">
-    <button mat-raised-button color="primary" (click)="openEditDialog()">Item hinzufügen</button>
+    <button class="btn-add-item" mat-raised-button color="primary" (click)="openEditDialog()">Item hinzufügen</button>
   </div>
 
+  <!-- Inventory Table -->
   <mat-card class="table-card">
     <table mat-table [dataSource]="inventory" class="mat-elevation-z8 inventory-table">
 
+      <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
         <td mat-cell *matCellDef="let item"> {{item.name}} </td>
       </ng-container>
 
+      <!-- Quantity Column -->
       <ng-container matColumnDef="quantity">
         <th mat-header-cell *matHeaderCellDef> Menge </th>
         <td mat-cell *matCellDef="let item"> {{item.quantity}} </td>
       </ng-container>
 
+      <!-- Unit Column -->
       <ng-container matColumnDef="unit">
         <th mat-header-cell *matHeaderCellDef> Einheit </th>
         <td mat-cell *matCellDef="let item"> {{item.unit}} </td>
       </ng-container>
 
+      <!-- Actions Column -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Aktionen </th>
         <td mat-cell *matCellDef="let item">
-          <button mat-raised-button color="accent" (click)="openEditDialog(item)">Bearbeiten</button>
-          <button mat-raised-button color="warn" (click)="deleteItem(item.id!)">Löschen</button>
+          <button class="btn-edit-item" mat-raised-button color="accent" (click)="openEditDialog(item)">Bearbeiten</button>
+          <button class="btn-delete-item" mat-raised-button color="warn" (click)="deleteItem(item.id!)">Löschen</button>
         </td>
       </ng-container>
 
@@ -39,5 +42,8 @@
     </table>
   </mat-card>
 
-  <button mat-raised-button color="primary" routerLink="/recipe">Zur Rezeptgenerierung</button>
+  <!-- Separate Button for Recipe Generation -->
+  <div class="recipe-button-container">
+    <button class="btn-recipe-gen" mat-raised-button color="primary" routerLink="/recipe">Zur Rezeptgenerierung</button>
+  </div>
 </div>
