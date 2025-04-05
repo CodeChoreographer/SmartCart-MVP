@@ -10,24 +10,52 @@ $text-color: white;
   margin: auto;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  color: black;
+.action-buttons,
+.recipe-button-container {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+
 }
 
-
-.form-container {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  color: $text-color;
+.btn-add-item, .btn-recipe-gen {
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  background-color: #00c37a;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
-.form-card, .table-card {
-  background-color: $secondary-color;
+.btn-edit-item {
+  cursor: pointer;
+  margin-right: 10px;
+  text-decoration: none;
+  color: white;
+  background-color: #00c37a;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.btn-delete-item {
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  background-color: red;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: $hover-color;
+}
+
+.table-card {
+  background-color: $panel-bg-color;
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 20px;
@@ -50,18 +78,4 @@ th {
 td {
   padding: 10px;
   color: $text-color;
-}
-
-.button-group {
-  display: flex;
-  gap: 10px;
-}
-
-button {
-  margin-top: 10px;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: $hover-color;
 }

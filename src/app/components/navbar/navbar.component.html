@@ -1,0 +1,8 @@
+<nav class="navbar">
+  <ul class="nav-list">
+    <li><a routerLink="/inventory">Vorrat</a></li>
+    <li><a routerLink="/recipe">Rezeptgenerierung</a></li>
+    <li *ngIf="isAdmin"><a routerLink="/admin">Benutzerverwaltung</a></li>
+    <li><a (click)="logout()">Abmelden</a></li>
+  </ul>
+</nav>
