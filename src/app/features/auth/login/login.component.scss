@@ -1,55 +1,92 @@
+$primary-color: #00c37a;
+$secondary-color: #1f1f1f;
+$panel-bg-color: #2a2a2a;
+$hover-color: #009b5a;
+$text-color: #f0f0f0;
+$error-color: #ff4c4c;
+$border-color: #444;
+
 .login-container {
   max-width: 400px;
-  margin: 5px auto;
-  padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #ddd;
-
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: $secondary-color;
+  color: $text-color;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s;
 
   h2 {
-    margin-top: 10px;
+    margin-top: 0;
     text-align: center;
     margin-bottom: 20px;
+    color: $primary-color;
   }
 
   mat-form-field {
     width: 100%;
-    margin-bottom: 0;
+    margin-bottom: 15px;
+
+    .mat-mdc-tooltip-surface{
+      background-color: black;
+      color: white;
+    }
+
+    .mat-mdc-form-field-wrapper {
+      background-color: $panel-bg-color;
+      border-radius: 5px;
+    }
+
+    .mat-mdc-form-field-flex {
+      border-bottom-color: $primary-color;
+    }
+
+    .mat-mdc-form-field-label {
+      color: $text-color ;
+    }
+
+    .mat-mdc-form-field-underline {
+      background-color: $primary-color;
+    }
   }
 
   button {
     width: 100%;
     margin-top: 10px;
-    background-color: #00c37a;
-    color: white;
+    padding: 10px;
+    background-color: $primary-color;
+    color: white ;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
 
     &:hover:enabled {
-      background-color: #009b5a;
+      background-color: $hover-color
     }
 
-    &[disabled] {
-      background-color: #ccc;
-      color: #666 ;
+    &:active:enabled {
+      transform: scale(0.98);
+    }
+
+    &:disabled {
+      background-color: grey;
+      color: #f0f0f0;
       cursor: not-allowed;
       pointer-events: all;
     }
   }
 
-
-  .mat-mdc-form-field-error{
-    color: white;
+  .mat-mdc-form-field-error {
+    color: $error-color;
     font-size: small;
     margin-bottom: 10px;
     text-align: left;
   }
 
-
-
   p {
     margin-top: 20px;
-    margin-bottom: 0;
     text-align: center;
-    color: black;
+    color: $text-color;
   }
 }
