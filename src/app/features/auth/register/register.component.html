@@ -1,19 +1,75 @@
 <div class="register-container">
-  <form (ngSubmit)="onSubmit()">
-    <mat-form-field>
+  <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+    <h2>Registrierung</h2>
+
+    <mat-form-field appearance="fill" class="full-width">
       <mat-label>Vorname</mat-label>
-      <input matInput [(ngModel)]="formData.firstName" name="firstName" required />
+      <input
+        matInput
+        type="text"
+        id="firstName"
+        name="firstName"
+        #firstNameModel=ngModel
+        [(ngModel)]="formData.firstName"
+        required
+      />
+      @if (firstNameModel.touched && firstNameModel.hasError('required')) {
+        <mat-error>Bitte geben Sie Ihren Vornamen ein</mat-error>
+      }
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="fill" class="full-width">
       <mat-label>Nachname</mat-label>
-      <input matInput [(ngModel)]="formData.lastName" name="lastName" required />
+      <input
+        matInput
+        type="text"
+        id="lastName"
+        name="lastName"
+        #lastNameModel=ngModel
+        [(ngModel)]="formData.lastName"
+        required
+      />
+      @if (lastNameModel.touched && lastNameModel.hasError('required')) {
+        <mat-error>Bitte geben Sie Ihren Nachnamen ein</mat-error>
+      }
     </mat-form-field>
 
-    <mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
       <mat-label>E-Mail</mat-label>
-      <input matInput type="email" [(ngModel)]="formData.email" name="email" required />
+      <input
+        matInput
+        type="email"
+        id="email"
+        name="email"
+        #mailModel=ngModel
+        [(ngModel)]="formData.email"
+        required
+      />
+      @if (mailModel.touched && mailModel.hasError('required')) {
+        <mat-error>Bitte geben Sie ihre gültige E-mail ein</mat-error>
+      }
     </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Passwort</mat-label>
+      <input
+        matInput
+        type="password"
+        id="password"
+        name="password"
+        #passwortModel=ngModel
+        [(ngModel)]="formData.password"
+        required
+      />
+      @if (passwortModel.touched && passwortModel.hasError('required')) {
+        <mat-error>Bitte geben Sie ihr gewünschtes Passwort ein</mat-error>
+      }
+    </mat-form-field>
+
+    @if (errorMessage) {
+      <mat-error>{{ errorMessage }}</mat-error>
+    }
 
     <mat-form-field>
       <mat-label>Geschlecht</mat-label>
@@ -24,14 +80,16 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Passwort</mat-label>
-      <input matInput type="password" [(ngModel)]="formData.password" name="password" required />
-    </mat-form-field>
 
-    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-
-    <button mat-raised-button color="primary" type="submit">Registrieren</button>
-    <button mat-raised-button color="primary" (click)="goBack()" class="back-button">Zurück zum Login</button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!registerForm.valid"
+      matTooltip="Bitte füllen Sie alle Felder aus"
+      [matTooltipDisabled]="registerForm.valid"
+    >
+      Registrieren
+    </button>
   </form>
 </div>

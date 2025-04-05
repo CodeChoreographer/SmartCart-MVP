@@ -5,8 +5,8 @@ import { NgForOf, NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { AuthService } from '../../services/auth.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-inventory',
@@ -30,7 +30,8 @@ export class InventoryComponent implements OnInit {
   constructor(
     private inventoryService: InventoryService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -86,6 +87,7 @@ export class InventoryComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+    this.toastr.error('Erfolgreich abgemeldet!', 'Tschüss');
     this.router.navigate(['/login']);
   }
 }
