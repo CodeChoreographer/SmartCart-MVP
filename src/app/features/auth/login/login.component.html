@@ -1,18 +1,57 @@
 <div class="login-container">
-  <form (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="fill">
-      <mat-label>E-Mail</mat-label>
-      <input matInput [(ngModel)]="email" name="email" required />
-    </mat-form-field>
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <h2>Anmeldung</h2>
 
     <mat-form-field appearance="fill">
+      <mat-label>Benutzername</mat-label>
+      <input
+        matInput
+        type="text"
+        id="username"
+        name="username"
+        #usernameModel="ngModel"
+        [(ngModel)]="email"
+        required
+      />
+      @if (usernameModel.touched && usernameModel.hasError('required')) {
+        <mat-error>Bitte geben Sie eine gültige E-mailadresse ein</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="custom-field">
       <mat-label>Passwort</mat-label>
-      <input matInput type="password" [(ngModel)]="password" name="password" required />
+      <input
+        matInput
+        type="password"
+        id="password"
+        name="password"
+        #passwortModel=ngModel
+        [(ngModel)]="password"
+        required
+      />
+      @if (passwortModel.touched && passwortModel.hasError('required')) {
+        <mat-error>Bitte geben Sie ihr Passwort ein</mat-error>
+      }
     </mat-form-field>
 
-    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    @if (errorMessage) {
+      <div class="error-message">{{ errorMessage }}</div>
+    }
 
-    <button mat-raised-button color="primary" type="submit">Anmelden</button>
-    <button mat-raised-button color="accent" type="button" (click)="goToRegister()" class="register-button">Registrieren</button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!loginForm.valid"
+      matTooltip="Bitte füllen Sie alle Felder aus"
+      [matTooltipDisabled]="loginForm.valid"
+    >
+      Anmelden
+    </button>
+
+    <p>Noch keinen Account?</p>
+    <button mat-raised-button color="accent" (click)="navigateToRegister()">
+      Registrieren
+    </button>
   </form>
 </div>

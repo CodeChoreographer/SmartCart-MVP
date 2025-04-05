@@ -1,34 +1,55 @@
 .login-container {
-  background-color: #2a2a2a;
-  padding: 30px;
-  border-radius: 10px;
-  width: 350px;
-  margin-top: 50px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-mat-form-field {
-  display: block;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-button {
-  padding: 0.75rem 2rem;
-  font-size: 1rem;
-  background-color: #00c37a;
-  color: white;
-  border: none;
+  max-width: 400px;
+  margin: 5px auto;
+  padding: 5px;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  cursor: pointer;
+  background-color: #ddd;
 
-  &:hover {
-    background-color: #009b5a;
+
+  h2 {
+    margin-top: 10px;
+    text-align: center;
+    margin-bottom: 20px;
   }
-}
 
-.error {
-  color: #ff4c4c;
-  margin-bottom: 10px;
-  text-align: center;
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 10px;
+    background-color: #00c37a;
+    color: white;
+
+    &:hover:enabled {
+      background-color: #009b5a;
+    }
+
+    &[disabled] {
+      background-color: #ccc;
+      color: #666 ;
+      cursor: not-allowed;
+      pointer-events: all;
+    }
+  }
+
+
+  .mat-mdc-form-field-error{
+    color: white;
+    font-size: small;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+
+
+
+  p {
+    margin-top: 20px;
+    margin-bottom: 0;
+    text-align: center;
+    color: white;
+  }
 }

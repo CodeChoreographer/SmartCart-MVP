@@ -19,9 +19,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     provideHttpClient(),
     provideAnimations(),
+    importProvidersFrom(BrowserAnimationsModule),
     provideToastr({
-      positionClass: 'toast-bottom-right',
+      positionClass: 'toast-top-right',
       preventDuplicates: true,
+      timeOut: 3000,
     }),
     importProvidersFrom(
       MatButtonModule,
@@ -31,7 +33,6 @@ export const appConfig: ApplicationConfig = {
       MatGridListModule,
       MatListModule,
       MatProgressSpinnerModule,
-      BrowserAnimationsModule
     )
   ],
 };
