@@ -2,11 +2,11 @@ const { User } = require('../models/db');
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll({
-      attributes: ['id', 'firstName', 'lastName', 'email', 'isAdmin']
-    });
-    res.json(users);
+    const connection = getConnection();
+    const result = await connection.query("SELECT id, firstName, lastName, email, isAdmin FROM users");
+    res.json(result.rows);
   } catch (error) {
+    console.error("❌ Fehler beim Abrufen der Benutzer:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
@@ -14,14 +14,10 @@ exports.getAllUsers = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const deleted = await User.destroy({ where: { id } });
-
-    if (deleted) {
-      res.json({ message: "Benutzer erfolgreich gelöscht" });
-    } else {
-      res.status(404).json({ message: "Benutzer nicht gefunden" });
-    }
+    await connection.query("DELETE FROM users WHERE id = $1", [id]);
+    res.json({ message: "Benutzer erfolgreich gelöscht" });
   } catch (error) {
+    console.error("❌ Fehler beim Löschen des Benutzers:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
