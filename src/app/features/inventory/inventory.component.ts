@@ -4,19 +4,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { InventoryEditComponent } from './inventory-edit/inventory-edit.component';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import {Router, RouterLink} from '@angular/router';
-import {NgIf} from '@angular/common';
-import {MatCard} from '@angular/material/card';
+import { Router, RouterLink } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { MatCard } from '@angular/material/card';
 import {
   MatCell,
   MatCellDef,
   MatColumnDef,
   MatHeaderCell,
   MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
   MatTable
 } from '@angular/material/table';
-import {MatButton} from '@angular/material/button';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-inventory',
@@ -41,6 +44,7 @@ import {MatButton} from '@angular/material/button';
 export class InventoryComponent implements OnInit {
   inventory: InventoryItem[] = [];
   isAdmin: boolean = false;
+  userId: number = 0;
 
   constructor(
     private inventoryService: InventoryService,
@@ -51,13 +55,15 @@ export class InventoryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadInventory();
     this.checkAdminStatus();
+    this.loadInventory();
   }
 
   loadInventory(): void {
     this.inventoryService.getInventory().subscribe(data => {
       this.inventory = data;
+    }, error => {
+      this.toastr.error('Fehler beim Laden des Inventars', 'Fehler');
     });
   }
 
@@ -66,6 +72,7 @@ export class InventoryComponent implements OnInit {
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1]));
       this.isAdmin = payload.isAdmin || false;
+      this.userId = payload.userId;  // User ID wird hier gesetzt
     }
   }
 
@@ -87,9 +94,12 @@ export class InventoryComponent implements OnInit {
   }
 
   addItem(item: InventoryItem): void {
+    item.userId = this.userId; // User ID hinzufügen
     this.inventoryService.addItem(item).subscribe(() => {
       this.loadInventory();
       this.toastr.success('Produkt erfolgreich hinzugefügt', 'Erfolg');
+    }, error => {
+      this.toastr.error('Fehler beim Hinzufügen des Produkts', 'Fehler');
     });
   }
 
@@ -97,6 +107,8 @@ export class InventoryComponent implements OnInit {
     this.inventoryService.updateItem(id, updatedItem).subscribe(() => {
       this.loadInventory();
       this.toastr.success('Produkt erfolgreich aktualisiert', 'Erfolg');
+    }, error => {
+      this.toastr.error('Fehler beim Aktualisieren des Produkts', 'Fehler');
     });
   }
 
@@ -104,6 +116,8 @@ export class InventoryComponent implements OnInit {
     this.inventoryService.deleteItem(id).subscribe(() => {
       this.loadInventory();
       this.toastr.success('Produkt erfolgreich gelöscht', 'Erfolg');
+    }, error => {
+      this.toastr.error('Fehler beim Löschen des Produkts', 'Fehler');
     });
   }
 }

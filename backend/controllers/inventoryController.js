@@ -1,4 +1,4 @@
-const { getConnection } = require('../models/db');
+const { Inventory } = require('../models/db');
 
 exports.getInventory = async (req, res) => {
   try {
@@ -6,13 +6,16 @@ exports.getInventory = async (req, res) => {
     const result = await connection.query("SELECT * FROM inventory");
     res.json(result.rows); // ✅ Nur rows zurückgeben
   } catch (err) {
-    console.error("❌ Fehler bei der Datenbankabfrage:", err.message);
-    res.status(500).json({ error: err.message });
+    console.error('❌ Fehler beim Abrufen des Inventars:', err.message);
+    res.status(500).json({ error: 'Fehler beim Abrufen des Inventars' });
   }
 };
 
+
 exports.addItem = async (req, res) => {
   const { name, quantity, unit } = req.body;
+  const userId = req.user.userId;
+
   try {
     const connection = getConnection();
     const result = await connection.query(
@@ -21,8 +24,8 @@ exports.addItem = async (req, res) => {
     );
     res.json({ message: "Artikel hinzugefügt", id: result.rows[0].id });
   } catch (err) {
-    console.error("❌ Fehler beim Hinzufügen:", err.message);
-    res.status(500).json({ error: err.message });
+    console.error('❌ Fehler beim Hinzufügen eines Items:', err.message);
+    res.status(500).json({ error: 'Fehler beim Hinzufügen eines Items' });
   }
 };
 
@@ -38,14 +41,15 @@ exports.deleteItem = async (req, res) => {
 
     res.json({ message: "Artikel gelöscht" });
   } catch (err) {
-    console.error("❌ Fehler beim Löschen:", err.message);
-    res.status(500).json({ error: err.message });
+    console.error('❌ Fehler beim Löschen eines Items:', err.message);
+    res.status(500).json({ error: 'Fehler beim Löschen eines Items' });
   }
 };
 
 exports.updateItem = async (req, res) => {
   const { id } = req.params;
   const { name, quantity, unit } = req.body;
+  const userId = req.user.userId;
 
   try {
     const connection = getConnection();
@@ -60,7 +64,7 @@ exports.updateItem = async (req, res) => {
 
     res.json({ message: "Artikel erfolgreich aktualisiert" });
   } catch (err) {
-    console.error("❌ Fehler beim Aktualisieren:", err.message);
-    res.status(500).json({ error: err.message });
+    console.error('❌ Fehler beim Aktualisieren eines Items:', err.message);
+    res.status(500).json({ error: 'Fehler beim Aktualisieren eines Items' });
   }
 };

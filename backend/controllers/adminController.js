@@ -1,4 +1,4 @@
-const { getConnection } = require('../models/db');
+const { User } = require('../models/db');
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -13,7 +13,6 @@ exports.getAllUsers = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    const connection = getConnection();
     const { id } = req.params;
     await connection.query("DELETE FROM users WHERE id = $1", [id]);
     res.json({ message: "Benutzer erfolgreich gelöscht" });
@@ -22,3 +21,5 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+

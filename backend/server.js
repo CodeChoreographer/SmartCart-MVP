@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const {initDb} = require('./models/db');
+const { initDb, sequelize } = require('./models/db');
 const inventoryRoutes = require('./routes/inventoryRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
 const authRoutes = require('./routes/authRoutes');

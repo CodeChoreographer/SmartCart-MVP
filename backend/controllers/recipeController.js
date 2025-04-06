@@ -1,4 +1,4 @@
-const { getConnection } = require('../models/db');
+const { Inventory } = require('../models/db');
 const axios = require('axios');
 
 exports.generateRecipe = async (req, res) => {

@@ -11,8 +11,10 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   register(data: any): Observable<any> {
+    console.log('📤 Daten an Server senden:', data);  // Logge Daten vor dem Senden
     return this.http.post(`${this.apiUrl}/register`, data);
   }
+
 
   login(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, data);

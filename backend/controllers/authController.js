@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { getConnection } = require('../models/db');
+const { User } = require('../models/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -58,3 +58,4 @@ exports.login = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+

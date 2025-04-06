@@ -1,3 +1,4 @@
+const { Sequelize, DataTypes } = require('sequelize');
 require('dotenv').config();
 const { Client } = require('pg');
 
