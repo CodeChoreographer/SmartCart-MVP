@@ -58,7 +58,7 @@ export class AdminComponent implements OnInit {
   loadUsers(): void {
     this.isLoading = true;
     const token = this.authService.getToken();
-    this.http.get<any[]>('http://localhost:3000/api/admin/users', {
+    this.http.get<any[]>('https://smartcart.website/api/admin/users', {
       headers: { Authorization: token || '' }
     }).subscribe({
       next: (users) => {
@@ -82,7 +82,7 @@ export class AdminComponent implements OnInit {
 
   deleteUser(userId: number): void {
     const token = this.authService.getToken();
-    this.http.delete(`http://localhost:3000/api/admin/users/${userId}`, {
+    this.http.delete(`https://smartcart.website/api/admin/users/${userId}`, {
       headers: { Authorization: token || '' }
     }).subscribe({
       next: () => {
