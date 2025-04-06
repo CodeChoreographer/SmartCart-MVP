@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class RecipeService {
   constructor(private http: HttpClient) {}
-  private inventoryUrl = 'http://localhost:3000/api/inventory';
+  private inventoryUrl = 'https://smartcart.website/api/inventory';
 
 
   generateRecipe(ingredients: string[], filter: string): Observable<any> {

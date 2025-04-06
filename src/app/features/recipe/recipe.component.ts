@@ -52,7 +52,7 @@ export class RecipeComponent implements OnInit {
   generateRecipe() {
     this.isLoading = true;
     this.generatedRecipe = '';
-    this.http.post<any>('http://localhost:3000/api/recipes/generate', {
+    this.http.post<any>('https://smartcart.website/api/recipes/generate', {
       ingredients: this.selectedIngredients,
       filter: this.selectedFilter
     }).subscribe(
