@@ -9,8 +9,6 @@ services:
       - "3000:3000"
     env_file:
       - ./backend/.env
-    depends_on:
-      - db
     container_name: smartcart_backend
 
   frontend:
@@ -22,14 +20,3 @@ services:
     depends_on:
       - backend
     container_name: smartcart_frontend
-
-  db:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: smartcart
-    ports:
-      - "3307:3306"  # Externer Port 3307, interner Port 3306
-    volumes:
-      - ./backend/models/smartcart.sql:/docker-entrypoint-initdb.d/smartcart.sql
-    container_name: smartcart_db

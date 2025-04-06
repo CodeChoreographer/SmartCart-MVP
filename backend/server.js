@@ -20,7 +20,7 @@ let connection;
 
 initDb().then(conn => {
   connection = conn;
-  app.listen(port, () => {
+  app.listen(port, '0.0.0.0', () => {
     console.log(`✅ Server läuft auf Port ${port}`);
     console.log(`✅ Backend ist erreichbar unter: http://localhost:${port}`);
     console.log(`✅ Applikation ist erreichbar unter: http://localhost:4200`);

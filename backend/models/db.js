@@ -1,25 +1,23 @@
 require('dotenv').config();
-const mysql = require('mysql2/promise');
-const fs = require('fs');
-const path = require('path');
+const { Client } = require('pg');
 
-let connection;
+let client;
 
 const connectWithRetry = async (retries = 5, delay = 5000) => {
   for (let i = 0; i < retries; i++) {
     try {
-      console.log(`🔄 Versuch, Verbindung zur Datenbank herzustellen... (Versuch ${i + 1} von ${retries})`);
+      console.log(`🔄 Versuch, Verbindung zur PostgreSQL-Datenbank herzustellen... (Versuch ${i + 1} von ${retries})`);
 
-      connection = await mysql.createConnection({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-        port: process.env.DB_PORT
+      client = new Client({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+          rejectUnauthorized: false
+        }
       });
 
-      console.log("✅ Verbindung zur Datenbank hergestellt!");
-      return connection;
+      await client.connect();
+      console.log("✅ Verbindung zur PostgreSQL-Datenbank hergestellt!");
+      return client;
     } catch (error) {
       console.error(`❌ Fehler bei der Verbindung: ${error.message}`);
       if (i < retries - 1) {
@@ -35,32 +33,33 @@ const connectWithRetry = async (retries = 5, delay = 5000) => {
 
 const initDb = async () => {
   try {
-    const connection = await connectWithRetry();
+    const client = await connectWithRetry();
 
-    await connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME};`);
-    await connection.query(`USE ${process.env.DB_NAME};`);
-
+    // Optional: Tabellen aus Datei einlesen
+    const fs = require('fs');
+    const path = require('path');
     const sqlFilePath = path.join(__dirname, 'smartcart.sql');
     if (fs.existsSync(sqlFilePath)) {
       const sql = fs.readFileSync(sqlFilePath, 'utf-8');
-      const queries = sql.split(';').filter(Boolean);
+      const queries = sql.split(';').filter(q => q.trim());
 
-      for (let query of queries) {
-        if (query.trim()) {
-          await connection.query(query.trim() + ';');
-        }
+      for (const query of queries) {
+        await client.query(query.trim() + ';');
       }
 
-      console.log("✅ Datenbank und Tabellen erfolgreich importiert!");
+      console.log("✅ Tabellen erfolgreich erstellt/importiert!");
     } else {
-      console.log("⚠️ Keine SQL-Datei gefunden, Datenbank nur erstellt.");
+      console.log("⚠️ Keine SQL-Datei gefunden, es wurden keine Tabellen importiert.");
     }
 
-    return connection;
+    return client;
   } catch (error) {
-    console.error("❌ Fehler bei der Datenbankinitialisierung:", error.message);
+    console.error("❌ Fehler bei der Initialisierung der DB:", error.message);
     process.exit(1);
   }
 };
 
-module.exports = { initDb, getConnection: () => connection };
+module.exports = {
+  initDb,
+  getConnection: () => client
+};
