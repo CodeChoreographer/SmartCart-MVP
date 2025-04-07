@@ -39,8 +39,11 @@ exports.login = async (req, res) => {
 
     if (!validPassword) return res.status(400).json({ error: "Ungültige Anmeldedaten" });
 
+    // 🔑 Wandle `isAdmin` in ein echtes `boolean` um
+    const isAdmin = user.isAdmin === 1;
+
     const token = jwt.sign(
-      { userId: user.id, isAdmin: user.isAdmin },
+      { userId: user.id, isAdmin: isAdmin },  // 🟢 isAdmin ist jetzt ein boolean!
       JWT_SECRET,
       { expiresIn: JWT_EXPIRATION }
     );
@@ -51,3 +54,4 @@ exports.login = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+

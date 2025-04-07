@@ -13,17 +13,17 @@
         </div>
       </div>
 
-      <div class="filter-box">
-        <label>Filter:</label>
-        <div class="custom-dropdown" (click)="toggleDropdown()">
-          <div class="dropdown-trigger">{{ selectedFilter }}</div>
-          <div class="dropdown-menu" *ngIf="dropdownOpen">
-            <div class="dropdown-item" (click)="selectFilter('Vegan')">Vegan</div>
-            <div class="dropdown-item" (click)="selectFilter('Vegetarisch')">Vegetarisch</div>
-            <div class="dropdown-item" (click)="selectFilter('Keine Einschränkung')">Keine Einschränkung</div>
-          </div>
+      <div class="custom-dropdown" (click)="toggleDropdown()">
+        {{ selectedFilter }}
+        <div class="dropdown-menu" *ngIf="dropdownOpen">
+          <button (click)="selectFilter('Vegetarisch')">Vegetarisch</button>
+          <button (click)="selectFilter('Vegan')">Vegan</button>
+          <button (click)="selectFilter('Unter 20 Minuten')">Unter 20 Minuten</button>
+          <button (click)="selectFilter('Keine Einschränkung')">Keine Einschränkung</button>
         </div>
       </div>
+
+
 
       <button mat-raised-button color="primary" (click)="generateRecipe()">Rezept generieren</button>
       <button mat-raised-button color="primary" routerLink="/inventory">Zurück zur Vorratsverwaltung</button>

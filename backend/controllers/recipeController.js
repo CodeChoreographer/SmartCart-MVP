@@ -2,9 +2,21 @@ const { getConnection } = require('../models/db');
 const axios = require('axios');
 
 exports.generateRecipe = async (req, res) => {
-  const { ingredients, filter } = req.body;
+  const { filter } = req.body;
+  const userId = req.user.userId;
 
   try {
+    const connection = getConnection();
+    const [inventory] = await connection.query(
+      "SELECT name FROM inventory WHERE userId = ?", [userId]
+    );
+
+    const ingredients = inventory.map(item => item.name);
+
+    if (ingredients.length === 0) {
+      return res.status(400).json({ error: "Keine Zutaten im Vorrat gefunden." });
+    }
+
     const prompt = `Erstelle ein vollständiges Rezept basierend auf folgenden Zutaten: ${ingredients.join(', ')}.
     Das Rezept sollte ${filter} sein. Gib das Rezept auf Deutsch zurück und strukturiere es mit folgenden Abschnitten:
     Titel, Zutaten, Zubereitung. Wenn Zutaten fehlen, liste diese am Ende unter "Benötigte Zutaten".
@@ -26,8 +38,6 @@ exports.generateRecipe = async (req, res) => {
     });
 
     const recipe = response.data.choices[0].message.content.trim();
-    console.log('🔍 API Antwort:', recipe);
-
     res.json({ recipe: recipe });
   } catch (error) {
     console.error('❌ Fehler bei der Rezeptgenerierung:', error.message);

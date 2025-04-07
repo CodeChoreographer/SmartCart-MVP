@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface InventoryItem {
@@ -18,18 +18,37 @@ export class InventoryService {
   constructor(private http: HttpClient) {}
 
   getInventory(): Observable<InventoryItem[]> {
-    return this.http.get<InventoryItem[]>(this.apiUrl);
+    const headers = this.createAuthHeaders();
+    return this.http.get<InventoryItem[]>(this.apiUrl, { headers });
   }
 
   addItem(item: InventoryItem): Observable<any> {
-    return this.http.post(this.apiUrl, item);
+    const headers = this.createAuthHeaders();
+    return this.http.post(this.apiUrl, item, { headers });
   }
 
   deleteItem(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    const headers = this.createAuthHeaders();
+    return this.http.delete(`${this.apiUrl}/${id}`, { headers });
   }
 
   updateItem(id: number, item: InventoryItem): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, item);
+    const headers = this.createAuthHeaders();
+    return this.http.put(`${this.apiUrl}/${id}`, item, { headers });
+  }
+
+  private createAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      return new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      });
+    } else {
+      return new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
+    }
   }
 }

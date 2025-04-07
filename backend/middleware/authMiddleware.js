@@ -4,7 +4,7 @@ require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 exports.verifyToken = (req, res, next) => {
-  const token = req.headers['authorization'];
+  const token = req.headers['authorization']?.split(' ')[1]; 
 
   if (!token) return res.status(403).send("Token wird benötigt.");
 
@@ -18,7 +18,7 @@ exports.verifyToken = (req, res, next) => {
 };
 
 exports.verifyAdmin = (req, res, next) => {
-  if (!req.user || !req.user.isAdmin) {
+  if (!req.user || req.user.isAdmin !== true) {
     return res.status(403).send("Adminrechte erforderlich.");
   }
   next();
