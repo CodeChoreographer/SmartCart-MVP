@@ -36,7 +36,6 @@ const initDb = async () => {
   try {
     const client = await connectWithRetry();
 
-    // Optional: Tabellen aus Datei einlesen
     const fs = require('fs');
     const path = require('path');
     const sqlFilePath = path.join(__dirname, 'smartcart.sql');

@@ -26,4 +26,12 @@ exports.verifyToken = (req, res, next) => {
     console.error("❌ Ungültiger Token.");
     return res.status(401).send("Ungültiger Token.");
   }
+
+};
+exports.verifyAdmin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next();
+  } else {
+    res.status(403).send("Keine Admin-Rechte.");
+  }
 };
