@@ -13,7 +13,7 @@ export interface InventoryItem {
   providedIn: 'root'
 })
 export class InventoryService {
-  private apiUrl = 'http://localhost:3000/api/inventory';
+  private apiUrl = 'https://api.smartcart.website/api/inventory';
 
   constructor(private http: HttpClient) {}
 
