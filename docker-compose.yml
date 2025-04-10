@@ -28,8 +28,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: smartcart
-    ports:
-      - "3307:3306"  # Externer Port 3307, interner Port 3306
     volumes:
       - ./backend/models/smartcart.sql:/docker-entrypoint-initdb.d/smartcart.sql
     container_name: smartcart_db
