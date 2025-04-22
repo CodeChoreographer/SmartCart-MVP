@@ -2,18 +2,29 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
-import {MatButton} from '@angular/material/button';
 import {MatInput} from '@angular/material/input';
 import {MatTooltip} from '@angular/material/tooltip';
-import {ToastrService} from 'ngx-toastr';
 import {MatOption, MatSelect} from '@angular/material/select';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  imports: [FormsModule, MatFormField, MatButton, MatInput, MatError, MatLabel, MatTooltip, MatSelect, MatOption],
+  standalone: true,
+  imports: [
+    FormsModule,
+    MatFormField,
+    MatInput,
+    MatError,
+    MatLabel,
+    MatTooltip,
+    MatSelect,
+    MatOption,
+    MatButton
+  ],
 })
 export class RegisterComponent {
   formData = {
@@ -26,12 +37,10 @@ export class RegisterComponent {
 
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router,  private toastr: ToastrService ) {}
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) {}
 
   private validateForm(): boolean {
-
     this.errorMessage = '';
-
 
     if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.formData.email)) {
       this.errorMessage = 'Bitte geben Sie eine gültige E-Mail-Adresse ein.';
@@ -50,15 +59,17 @@ export class RegisterComponent {
   onSubmit(): void {
     this.errorMessage = '';
 
-    if (!this.validateForm()) {
-      return;
-    }
+    if (!this.validateForm()) return;
 
     this.authService.register(this.formData).subscribe({
       next: () => {
         this.toastr.success('Registrierung erfolgreich!', 'Erfolg');
 
-        const loginData = { email: this.formData.email, password: this.formData.password };
+        const loginData = {
+          email: this.formData.email,
+          password: this.formData.password
+        };
+
         this.authService.login(loginData).subscribe({
           next: (response) => {
             this.authService.saveToken(response.token);
@@ -79,5 +90,4 @@ export class RegisterComponent {
       },
     });
   }
-
 }

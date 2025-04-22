@@ -6,8 +6,20 @@ html, body {
   scroll-behavior: smooth;
   background: lightsteelblue;
 }
+.bottom-left-image {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  width: 100px;
+  height: auto;
+  z-index: 999;
+  opacity: 0.9;
+  pointer-events: none;
+}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 a { text-decoration: none; }
+
+
 
 
 

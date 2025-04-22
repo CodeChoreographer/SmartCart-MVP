@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  standalone: true,
   imports: [
     FormsModule,
     CommonModule,
@@ -22,7 +23,9 @@ import { ToastrService } from 'ngx-toastr';
     MatInput,
     MatLabel,
     MatTableModule,
-    MatError
+    MatError,
+    MatAnchor,
+    RouterLink
   ],
 })
 export class LoginComponent {
@@ -38,18 +41,12 @@ export class LoginComponent {
       next: (response: any) => {
         this.authService.saveToken(response.token);
         this.toastr.success('Erfolgreich eingeloggt!', 'Willkommen');
-        console.log('✅ Erfolgreich eingeloggt:', response);
         this.router.navigate(['/inventory']);
       },
       error: (error) => {
-        console.error('❌ Fehler beim Login:', error.error);
         this.errorMessage = 'Falsche E-Mail oder Passwort';
-        this.toastr.error('Falsche E-Mail oder Passwort', 'Fehler beim Login');
+        this.toastr.error(this.errorMessage, 'Fehler beim Login');
       }
     });
-  }
-
-  navigateToRegister(): void {
-    this.router.navigate(['/register']);
   }
 }

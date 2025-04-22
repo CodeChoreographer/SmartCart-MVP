@@ -62,7 +62,7 @@ export class RecipeComponent implements OnInit {
     this.isLoading = true;
 
     this.recipeService.generateRecipe({
-      ingredients: this.selectedIngredients,
+      selectedIngredients: this.selectedIngredients,
       filter: this.selectedFilter
     }).subscribe({
       next: (response) => {

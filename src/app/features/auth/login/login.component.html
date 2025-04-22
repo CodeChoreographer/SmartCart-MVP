@@ -3,34 +3,32 @@
     <h2>Anmeldung</h2>
 
     <mat-form-field appearance="fill">
-      <mat-label>Benutzername</mat-label>
+      <mat-label>E-Mail</mat-label>
       <input
         matInput
-        type="text"
-        id="username"
-        name="username"
-        #usernameModel="ngModel"
+        type="email"
+        name="email"
         [(ngModel)]="email"
+        #emailModel="ngModel"
         required
       />
-      @if (usernameModel.touched && usernameModel.hasError('required')) {
-        <mat-error>Bitte geben Sie eine gültige E-mailadresse ein</mat-error>
+      @if (emailModel.touched && emailModel.hasError('required')) {
+        <mat-error>Bitte geben Sie Ihre E-Mail ein</mat-error>
       }
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="custom-field">
+    <mat-form-field appearance="fill">
       <mat-label>Passwort</mat-label>
       <input
         matInput
         type="password"
-        id="password"
         name="password"
-        #passwortModel=ngModel
         [(ngModel)]="password"
+        #passwordModel="ngModel"
         required
       />
-      @if (passwortModel.touched && passwortModel.hasError('required')) {
-        <mat-error>Bitte geben Sie ihr Passwort ein</mat-error>
+      @if (passwordModel.touched && passwordModel.hasError('required')) {
+        <mat-error>Bitte geben Sie Ihr Passwort ein</mat-error>
       }
     </mat-form-field>
 
@@ -38,17 +36,12 @@
       <div class="error-message">{{ errorMessage }}</div>
     }
 
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      [disabled]="!loginForm.valid"
-    >
+    <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">
       Anmelden
     </button>
 
     <p>Noch keinen Account?</p>
-    <button mat-raised-button color="accent" (click)="navigateToRegister()">
+    <button mat-raised-button color="accent" routerLink="/register" type="button">
       Registrieren
     </button>
   </form>

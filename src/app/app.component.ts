@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {NavbarComponent} from './components/navbar/navbar.component';
-import {NgIf} from '@angular/common';
+import {NgIf, NgOptimizedImage} from '@angular/common';
 import {AuthService} from './services/auth.service';
 
 
@@ -11,7 +11,8 @@ import {AuthService} from './services/auth.service';
   imports: [
     RouterOutlet,
     NavbarComponent,
-    NgIf
+    NgIf,
+    NgOptimizedImage
   ],
   styleUrl: './app.component.scss'
 })

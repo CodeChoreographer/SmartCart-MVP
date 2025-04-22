@@ -10,7 +10,7 @@ export class RecipeService {
 
   constructor(private http: HttpClient) {}
 
-  generateRecipe(data: { ingredients: string[], filter: string }): Observable<any> {
+  generateRecipe(data: { selectedIngredients: string[], filter: string }): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

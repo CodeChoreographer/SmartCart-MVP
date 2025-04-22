@@ -7,10 +7,9 @@
       <input
         matInput
         type="text"
-        id="firstName"
         name="firstName"
-        #firstNameModel=ngModel
         [(ngModel)]="formData.firstName"
+        #firstNameModel="ngModel"
         required
       />
       @if (firstNameModel.touched && firstNameModel.hasError('required')) {
@@ -23,10 +22,9 @@
       <input
         matInput
         type="text"
-        id="lastName"
         name="lastName"
-        #lastNameModel=ngModel
         [(ngModel)]="formData.lastName"
+        #lastNameModel="ngModel"
         required
       />
       @if (lastNameModel.touched && lastNameModel.hasError('required')) {
@@ -34,20 +32,18 @@
       }
     </mat-form-field>
 
-
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>E-Mail</mat-label>
       <input
         matInput
         type="email"
-        id="email"
         name="email"
-        #mailModel=ngModel
         [(ngModel)]="formData.email"
+        #mailModel="ngModel"
         required
       />
       @if (mailModel.touched && mailModel.hasError('required')) {
-        <mat-error>Bitte geben Sie ihre gültige E-mail ein</mat-error>
+        <mat-error>Bitte geben Sie eine gültige E-Mail ein</mat-error>
       }
     </mat-form-field>
 
@@ -56,22 +52,17 @@
       <input
         matInput
         type="password"
-        id="password"
         name="password"
-        #passwortModel=ngModel
         [(ngModel)]="formData.password"
+        #passwortModel="ngModel"
         required
       />
       @if (passwortModel.touched && passwortModel.hasError('required')) {
-        <mat-error>Bitte geben Sie ihr gewünschtes Passwort ein</mat-error>
+        <mat-error>Bitte geben Sie Ihr Passwort ein</mat-error>
       }
     </mat-form-field>
 
-    @if (errorMessage) {
-      <mat-error>{{ errorMessage }}</mat-error>
-    }
-
-    <mat-form-field>
+    <mat-form-field appearance="fill" class="full-width">
       <mat-label>Geschlecht</mat-label>
       <mat-select [(ngModel)]="formData.gender" name="gender" required>
         <mat-option value="Männlich">Männlich</mat-option>
@@ -80,6 +71,9 @@
       </mat-select>
     </mat-form-field>
 
+    @if (errorMessage) {
+      <mat-error>{{ errorMessage }}</mat-error>
+    }
 
     <button
       mat-raised-button
