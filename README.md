@@ -29,6 +29,14 @@ Das Projekt besteht aus drei zentralen Komponenten:
 
 ### 🧪 Lokaler Start mit Docker
 
+Erstelle eine .env Datei mit folgendem inhalt im Root (SmartCart-MVP) Ordner
+DB_HOST=db
+DB_USER=root
+DB_PASSWORD=root
+DB_NAME=smartcart
+DB_PORT=3306
+
+
 1. **Repository klonen:**
 
 ```bash
