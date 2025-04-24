@@ -1,56 +1,61 @@
-# 🛒 SmartCart
+# 🛒 SmartCart – Einkaufsplanung leicht gemacht
 
-SmartCart ist eine moderne Webanwendung zur Einkaufsplanung mit Vorratsverwaltung, Rezeptvorschlägen und Nachhaltigkeitsintegration.  
-Ziel ist es, den Lebensmitteleinkauf smarter zu gestalten, Foodwaste zu vermeiden und regionale Produkte stärker zu berücksichtigen.
+Willkommen bei **SmartCart**, der intelligenten Webapplikation zur Einkaufsplanung, Vorratsverwaltung und Rezeptvorschlägen. Spare Zeit, reduziere Foodwaste und plane deinen Einkauf effizient – egal ob zu Hause oder unterwegs.
 
-Smart einkaufen – Nachhaltig gedacht
+## 🌐 Live-Version
 
----
+Die Anwendung ist jederzeit erreichbar unter:
 
-## 🚧 Projektstatus 🚧
-
-🔨 In Entwicklung (MVP Phase)  
-📦 Geplant für Web & Mobile (MVP nur Web)
-🐳 Docker-ready  
-🔒 Sicherheits- und API-Vorbereitung inklusive
+🔗 [https://smartcart.website](https://smartcart.website)
 
 ---
-# 🚀 Anwendung mit Docker starten
 
-## 🔑 Voraussetzungen
+## 🚀 Projekt lokal starten (mit Docker)
 
-Docker
-Docker Compose
-Ein laufender MySQL Server
-Eine Datenbank mit dem Namen smartcart
+### 🔧 Voraussetzungen
 
-## 🔨 1. .env Datei erstellen 
+Stelle sicher, dass folgende Tools auf deinem System installiert sind:
 
-Erstelle im Ordner backend/ eine Datei mit dem Namen .env und folgendem Inhalt:
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+
+### 📦 Projektstruktur
+
+Das Projekt besteht aus drei zentralen Komponenten:
+
+- **Frontend:** Angular-Anwendung (unter `src/`)
+- **Backend:** Express.js API (unter `backend/`)
+- **Datenbank:** MariaDB (Docker-Container)
+
+### 🧪 Lokaler Start mit Docker
+
+1. **Repository klonen:**
+
 ```bash
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=DEIN_DATENBANK_PASSWORT
-DB_NAME=smartcart
-DB_PORT=3306
+git clone https://github.com/CodeChoreographer/smartcart-mvp.git
+cd smartcart-mvp
 ```
-💡 Hinweis: Ersetze DEIN_DATENBANK_PASSWORT mit dem Passwort deines MySQL-Servers.
 
-## 🐳 2. Docker starten
+2. **Docker-Container starten:**
 
-Im Hauptverzeichnis des Projekts (SmartCart-MVP) folgenden Befehl ausführen:
 ```bash
 docker-compose up --build
 ```
 
-## 🔥 3. Anwendung aufrufen
-
-Frontend: http://localhost:4200
-
-Backend: http://localhost:3000
-
+> Hinweis: Beim ersten Start kann der Build-Vorgang einige Minuten dauern, da alle Abhängigkeiten geladen werden.
 
 ---
-## 📧 Kontakt
 
-Falls du Fragen hast, melde dich gerne!
+## 🌍 Zugriff auf die Applikation
+
+Nach dem Start der Container erreichst du die Anwendung unter folgenden Adressen:
+
+- **Frontend (Angular):**  
+  [http://localhost:4200](http://localhost:4200)
+
+- **Backend (Express API):**  
+  [http://localhost:3000](http://localhost:3000)
+
+> Stelle sicher, dass keine anderen Anwendungen bereits auf Port 4200 oder 3000 laufen.
+
+---
